@@ -1,0 +1,29 @@
+name: audio_converter_native
+description: A Flutter package for native audio conversion using Platform Channels. Supports real audio conversion on Android and iOS without external dependencies.
+version: 1.0.3
+homepage: https://github.com/celestinolopes/audio_converter_native
+repository: https://github.com/celestinolopes/audio_converter_native
+issue_tracker: https://github.com/celestinolopes/audio_converter_native/issues
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path_provider: ^2.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.example.audio_converter_native
+        pluginClass: AudioConverterNativePlugin
+      ios:
+        pluginClass: AudioConverterNativePlugin
