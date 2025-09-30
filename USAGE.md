@@ -1,25 +1,25 @@
-# Como Usar o Audio Converter Native
+# How to Use Audio Converter Native
 
-## 🚀 Instalação
+## 🚀 Installation
 
-### 1. Adicionar ao pubspec.yaml
+### 1. Add to pubspec.yaml
 
 ```yaml
 dependencies:
   audio_converter_native: ^1.0.0
 ```
 
-### 2. Executar flutter pub get
+### 2. Run flutter pub get
 
 ```bash
 flutter pub get
 ```
 
-## 📱 Configuração por Plataforma
+## 📱 Platform Configuration
 
 ### Android
 
-Adicione as permissões no `android/app/src/main/AndroidManifest.xml`:
+Add permissions to `android/app/src/main/AndroidManifest.xml`:
 
 ```xml
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -29,22 +29,22 @@ Adicione as permissões no `android/app/src/main/AndroidManifest.xml`:
 
 ### iOS
 
-Adicione a permissão no `ios/Runner/Info.plist`:
+Add permission to `ios/Runner/Info.plist`:
 
 ```xml
 <key>NSMicrophoneUsageDescription</key>
 <string>This app needs access to microphone to record audio.</string>
 ```
 
-## 💻 Uso Básico
+## 💻 Basic Usage
 
-### 1. Importar o package
+### 1. Import the package
 
 ```dart
 import 'package:audio_converter_native/audio_converter_native.dart';
 ```
 
-### 2. Converter áudio para WAV
+### 2. Convert audio to WAV
 
 ```dart
 final result = await AudioConverterService.instance.convertToWAV(
@@ -54,24 +54,24 @@ final result = await AudioConverterService.instance.convertToWAV(
 );
 
 if (result.success) {
-  print('Conversão bem-sucedida: ${result.outputPath}');
-  print('Duração: ${result.duration}ms');
+  print('Conversion successful: ${result.outputPath}');
+  print('Duration: ${result.duration}ms');
 } else {
-  print('Erro na conversão: ${result.error}');
+  print('Conversion error: ${result.error}');
 }
 ```
 
-### 3. Converter para outros formatos
+### 3. Convert to other formats
 
 ```dart
-// Para MP3
+// To MP3
 final mp3Result = await AudioConverterService.instance.convertToMP3(
   inputPath: '/path/to/input.wav',
   bitrate: 128,
   sampleRate: 44100,
 );
 
-// Para AAC
+// To AAC
 final aacResult = await AudioConverterService.instance.convertToAAC(
   inputPath: '/path/to/input.wav',
   bitrate: 128,
@@ -79,7 +79,7 @@ final aacResult = await AudioConverterService.instance.convertToAAC(
 );
 ```
 
-## 🎯 Exemplo Completo
+## 🎯 Complete Example
 
 ```dart
 import 'package:flutter/material.dart';
@@ -94,14 +94,14 @@ class _AudioConverterExampleState extends State<AudioConverterExample> {
   String? _inputPath;
   String? _outputPath;
   bool _isConverting = false;
-  String _status = 'Pronto';
+  String _status = 'Ready';
 
   Future<void> _convertAudio() async {
     if (_inputPath == null) return;
 
     setState(() {
       _isConverting = true;
-      _status = 'Convertendo...';
+      _status = 'Converting...';
     });
 
     try {
@@ -114,22 +114,22 @@ class _AudioConverterExampleState extends State<AudioConverterExample> {
       setState(() {
         _isConverting = false;
         _outputPath = result.outputPath;
-        _status = result.success ? 'Conversão concluída' : 'Erro na conversão';
+        _status = result.success ? 'Conversion completed' : 'Conversion error';
       });
 
       if (result.success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Arquivo convertido: ${result.outputPath}')),
+          SnackBar(content: Text('File converted: ${result.outputPath}')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro: ${result.error}')),
+          SnackBar(content: Text('Error: ${result.error}')),
         );
       }
     } catch (e) {
       setState(() {
         _isConverting = false;
-        _status = 'Erro na conversão';
+        _status = 'Conversion error';
       });
     }
   }
@@ -148,11 +148,11 @@ class _AudioConverterExampleState extends State<AudioConverterExample> {
               onPressed: _isConverting ? null : _convertAudio,
               child: _isConverting 
                 ? CircularProgressIndicator()
-                : Text('Converter para WAV'),
+                : Text('Convert to WAV'),
             ),
             if (_outputPath != null) ...[
               SizedBox(height: 20),
-              Text('Arquivo convertido: ${_outputPath!.split('/').last}'),
+              Text('Converted file: ${_outputPath!.split('/').last}'),
             ],
           ],
         ),
@@ -162,9 +162,9 @@ class _AudioConverterExampleState extends State<AudioConverterExample> {
 }
 ```
 
-## 🔧 Operações Avançadas
+## 🔧 Advanced Operations
 
-### Extrair áudio de vídeo
+### Extract audio from video
 
 ```dart
 final result = await AudioConverterService.instance.extractAudioFromVideo(
@@ -175,7 +175,7 @@ final result = await AudioConverterService.instance.extractAudioFromVideo(
 );
 ```
 
-### Cortar áudio
+### Trim audio
 
 ```dart
 final result = await AudioConverterService.instance.trimAudio(
@@ -186,7 +186,7 @@ final result = await AudioConverterService.instance.trimAudio(
 );
 ```
 
-### Aplicar fade
+### Apply fade
 
 ```dart
 final result = await AudioConverterService.instance.applyFade(
@@ -197,7 +197,7 @@ final result = await AudioConverterService.instance.applyFade(
 );
 ```
 
-### Comando personalizado
+### Custom command
 
 ```dart
 final result = await AudioConverterService.instance.executeCommand(
@@ -207,29 +207,29 @@ final result = await AudioConverterService.instance.executeCommand(
 );
 ```
 
-## 📊 Obter informações do arquivo
+## 📊 Get file information
 
 ```dart
 final mediaInfo = await AudioConverterService.instance.getMediaInfo('/path/to/audio.wav');
 
 if (mediaInfo['success']) {
-  print('Tamanho: ${mediaInfo['fileSize']} bytes');
-  print('Duração: ${mediaInfo['duration']}ms');
-  print('Formato: ${mediaInfo['format']}');
+  print('Size: ${mediaInfo['fileSize']} bytes');
+  print('Duration: ${mediaInfo['duration']}ms');
+  print('Format: ${mediaInfo['format']}');
 }
 ```
 
-## ✅ Verificar disponibilidade
+## ✅ Check availability
 
 ```dart
 final isAvailable = await AudioConverterService.instance.isAvailable();
-print('Conversor disponível: $isAvailable');
+print('Converter available: $isAvailable');
 
 final version = await AudioConverterService.instance.getVersion();
-print('Versão: $version');
+print('Version: $version');
 ```
 
-## 🎨 Integração com Gravação
+## 🎨 Recording Integration
 
 ```dart
 import 'package:record/record.dart';
@@ -238,16 +238,16 @@ class AudioRecorderWithConverter {
   final AudioRecorder _recorder = AudioRecorder();
   
   Future<String?> recordAndConvert() async {
-    // Gravar áudio
+    // Record audio
     final cacheDir = await getTemporaryDirectory();
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     final recordingPath = '${cacheDir.path}/recording_$timestamp.aac';
     
     await _recorder.start(RecordConfig(), path: recordingPath);
-    // ... aguardar gravação ...
+    // ... wait for recording ...
     await _recorder.stop();
     
-    // Converter para WAV
+    // Convert to WAV
     final result = await AudioConverterService.instance.convertToWAV(
       inputPath: recordingPath,
     );
@@ -257,36 +257,36 @@ class AudioRecorderWithConverter {
 }
 ```
 
-## 🚨 Notas Importantes
+## 🚨 Important Notes
 
-1. **Conversão Real**: O package usa o áudio realmente gravado, não simulação
-2. **Sem Dependências Externas**: Não precisa do FFmpeg Kit
-3. **Cache Directory**: Arquivos convertidos são salvos no cache do dispositivo
-4. **Duração Estimada**: Baseada no tamanho do arquivo (AAC 128kbps)
-5. **Cross-Platform**: Funciona em Android e iOS
+1. **Real Conversion**: The package uses actually recorded audio, not simulation
+2. **No External Dependencies**: No need for FFmpeg Kit
+3. **Cache Directory**: Converted files are saved in device cache
+4. **Estimated Duration**: Based on file size (AAC 128kbps)
+5. **Cross-Platform**: Works on Android and iOS
 
-## 🐛 Solução de Problemas
+## 🐛 Troubleshooting
 
-### Arquivo não encontrado
-- Verifique se o arquivo de entrada existe
-- Confirme se o caminho está correto
-- Verifique permissões de acesso
+### File not found
+- Check if the input file exists
+- Confirm the path is correct
+- Check access permissions
 
-### Erro de conversão
-- Verifique se o diretório de saída pode ser criado
-- Confirme se há espaço suficiente no cache
-- Verifique permissões de escrita
+### Conversion error
+- Check if the output directory can be created
+- Confirm there's enough space in cache
+- Check write permissions
 
-### Problemas de build
+### Build issues
 ```bash
 flutter clean
 flutter pub get
-cd ios && pod install  # Para iOS
+cd ios && pod install  # For iOS
 ```
 
-## 📞 Suporte
+## 📞 Support
 
-Para dúvidas ou problemas:
-1. Verifique a documentação completa no README.md
-2. Execute o app de exemplo
-3. Abra uma issue no repositório
+For questions or issues:
+1. Check the complete documentation in README.md
+2. Run the example app
+3. Open an issue in the repository
