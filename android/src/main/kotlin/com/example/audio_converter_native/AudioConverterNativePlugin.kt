@@ -48,7 +48,7 @@ class AudioConverterNativePlugin : FlutterPlugin, MethodCallHandler {
                 var success = false
                 var outputMessage = ""
                 var errorMessage: String? = null
-                var duration = 0
+                var duration: Long = 0
                 
                 // Se há caminhos de entrada e saída, executa conversão
                 if (inputPath != null && outputPath != null) {
@@ -96,7 +96,7 @@ class AudioConverterNativePlugin : FlutterPlugin, MethodCallHandler {
             // Verifica se o arquivo de entrada existe
             val inputFile = File(inputPath)
             if (!inputFile.exists()) {
-                return ConversionResult(false, "", "Arquivo de entrada não encontrado: $inputPath", 0)
+                return ConversionResult(false, "", "Arquivo de entrada não encontrado: $inputPath", 0L)
             }
             
             // Copia o arquivo original para o cache (conversão real usando o áudio gravado)
@@ -113,16 +113,16 @@ class AudioConverterNativePlugin : FlutterPlugin, MethodCallHandler {
             
         } catch (e: Exception) {
             Log.e(TAG, "Erro na conversão", e)
-            ConversionResult(false, "", e.message ?: "Erro desconhecido", 0)
+            ConversionResult(false, "", e.message ?: "Erro desconhecido", 0L)
         }
     }
     
-    private fun estimateAudioDuration(fileSize: Long): Int {
+    private fun estimateAudioDuration(fileSize: Long): Long {
         // Estimativa baseada em AAC 128kbps
         // AAC 128kbps = 16KB/s = 16000 bytes/s
         val bytesPerSecond = 16000L
         val durationSeconds = fileSize.toDouble() / bytesPerSecond.toDouble()
-        return (durationSeconds * 1000).toInt() // Converte para milissegundos
+        return (durationSeconds * 1000).toLong() // Converte para milissegundos
     }
     
     private fun getMediaInfo(call: MethodCall, result: Result) {
@@ -136,7 +136,7 @@ class AudioConverterNativePlugin : FlutterPlugin, MethodCallHandler {
         try {
             val file = File(filePath)
             if (!file.exists()) {
-                result.success(mapOf(
+                result.success(mapOf<String, Any>(
                     "success" to false,
                     "error" to "Arquivo não encontrado: $filePath"
                 ))
@@ -146,7 +146,7 @@ class AudioConverterNativePlugin : FlutterPlugin, MethodCallHandler {
             val fileSize = file.length()
             val duration = estimateAudioDuration(fileSize)
             
-            val mediaInfo = mapOf(
+            val mediaInfo = mapOf<String, Any>(
                 "success" to true,
                 "filePath" to filePath,
                 "fileSize" to fileSize,
@@ -159,9 +159,9 @@ class AudioConverterNativePlugin : FlutterPlugin, MethodCallHandler {
             
         } catch (e: Exception) {
             Log.e(TAG, "Erro ao obter informações do arquivo", e)
-            result.success(mapOf(
+            result.success(mapOf<String, Any>(
                 "success" to false,
-                "error" to e.message ?: "Erro desconhecido"
+                "error" to (e.message ?: "Erro desconhecido")
             ))
         }
     }
@@ -198,6 +198,6 @@ class AudioConverterNativePlugin : FlutterPlugin, MethodCallHandler {
         val success: Boolean,
         val output: String,
         val error: String?,
-        val duration: Int
+        val duration: Long
     )
 }
